@@ -51,7 +51,7 @@ public class Bullet implements Serializable {
 		this.setEnemyDetector(enemyDetecter);
 		random.nextInt(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy().length);
 		try {
-			bulletImage = ImageIO.read(new File("BlueBullet.png")).getScaledInstance(15, 25,
+			bulletImage = ImageIO.read(new File("images\\BlueBullet.png")).getScaledInstance(15, 25,
 					Image.SCALE_AREA_AVERAGING);
 		} catch (IOException e) {
 			e.printStackTrace();

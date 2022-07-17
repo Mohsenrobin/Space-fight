@@ -34,10 +34,10 @@ public class Player implements Serializable {
 		deadPLayer = false;
 		shot = false;
 		try {
-			spaceShipImage = ImageIO.read(new File("BluePlane.PNG")).getScaledInstance(
+			spaceShipImage = ImageIO.read(new File("images\\BluePlane.PNG")).getScaledInstance(
 					SpriteGame.getSpriteGame().getWidth() / 7, SpriteGame.getSpriteGame().getWidth() / 7,
 					Image.SCALE_AREA_AVERAGING);
-			deadImage = ImageIO.read(new File("boom2.PNG")).getScaledInstance(
+			deadImage = ImageIO.read(new File("images\\boom2.PNG")).getScaledInstance(
 					SpriteGame.getSpriteGame().getWidth() / 7, SpriteGame.getSpriteGame().getWidth() / 7,
 					Image.SCALE_AREA_AVERAGING);
 		} catch (IOException e) {

@@ -29,7 +29,7 @@ public class Menu extends JPanel {
 		setLayout(null);
 		setSize(SpriteGame.getSpriteGame().getWidth(), SpriteGame.getSpriteGame().getHeight());
 		try {
-			background = ImageIO.read(new File("crab_lg1024.PNG"));
+			background = ImageIO.read(new File("images\\crab_lg1024.PNG"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

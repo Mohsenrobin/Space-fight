@@ -43,14 +43,14 @@ public class Enemy implements Serializable {
 		enemyBullet = new EnemyBullet[50];
 		try {
 			if (kindOfEnemy == "Yellow")
-				enemySpaceShipImage = ImageIO.read(new File("YellowPlane.PNG")).getScaledInstance(
+				enemySpaceShipImage = ImageIO.read(new File("images\\YellowPlane.PNG")).getScaledInstance(
 						SpriteGame.getSpriteGame().getWidth() / 10, SpriteGame.getSpriteGame().getWidth() / 10,
 						Image.SCALE_AREA_AVERAGING);
 			else
-				enemySpaceShipImage = ImageIO.read(new File("RedPlane.PNG")).getScaledInstance(
+				enemySpaceShipImage = ImageIO.read(new File("images\\RedPlane.PNG")).getScaledInstance(
 						SpriteGame.getSpriteGame().getWidth() / 10, SpriteGame.getSpriteGame().getWidth() / 10,
 						Image.SCALE_AREA_AVERAGING);
-			enemyDeadImage = ImageIO.read(new File("boom2.PNG")).getScaledInstance(
+			enemyDeadImage = ImageIO.read(new File("images\\boom2.PNG")).getScaledInstance(
 					SpriteGame.getSpriteGame().getWidth() / 10, SpriteGame.getSpriteGame().getWidth() / 10,
 					Image.SCALE_AREA_AVERAGING);
 		} catch (IOException e) {

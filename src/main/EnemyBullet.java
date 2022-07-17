@@ -33,14 +33,14 @@ public class EnemyBullet implements Serializable {
 			if (SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i] != null
 					&& SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getKindOfEnemy() == "Yellow") {
 				try {
-					ebemyBulletImage = ImageIO.read(new File("YellowBullet.png")).getScaledInstance(10, 20,
+					ebemyBulletImage = ImageIO.read(new File("images\\YellowBullet.png")).getScaledInstance(10, 20,
 							Image.SCALE_AREA_AVERAGING);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else {
 				try {
-					ebemyBulletImage = ImageIO.read(new File("RedBullet.png")).getScaledInstance(10, 20,
+					ebemyBulletImage = ImageIO.read(new File("images\\RedBullet.png")).getScaledInstance(10, 20,
 							Image.SCALE_AREA_AVERAGING);
 				} catch (IOException e) {
 					e.printStackTrace();

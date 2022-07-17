@@ -17,7 +17,7 @@ public class Level implements Serializable {
 	private final String imageLocation;
 
 	public Level(String name, int numberOfenemies) {
-		imageLocation = "space.JPG";
+		imageLocation = "images\\space.JPG";
 		player = new Player((SpriteGame.getSpriteGame().getWidth() / 2) - 40,
 				SpriteGame.getSpriteGame().getHeight() - 150);
 		this.scale = 1;
