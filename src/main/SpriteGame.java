@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
@@ -34,10 +33,6 @@ public class SpriteGame extends JFrame{
 	public static void main(String[] args) {
 		spriteGame = new SpriteGame("Sprite Game");
 			init();
-	}
-
-	public Menu getMenu() {
-		return menu;
 	}
 
 	private static void init() {
