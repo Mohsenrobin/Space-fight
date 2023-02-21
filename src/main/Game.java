@@ -35,10 +35,6 @@ public class Game extends JPanel implements Runnable, ActionListener {
 		return timeCounter;
 	}
 
-	public void setTimeCounter(long timeCounter) {
-		this.timeCounter = timeCounter;
-	}
-
 	public Game() {
 
 		timeCounter = 0;
@@ -136,86 +132,67 @@ public class Game extends JPanel implements Runnable, ActionListener {
 
 	public void gameUpdate() {
 		timer.start();
-		setThread(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (!getLevel().getPlayer().isDeadPLayer()) {
-					level.update();
-
-
-					scoreTable = Integer.toString(Score.getScore().getplayerScore());
-					scoreLabel.setText("SCORE: " + scoreTable);
-					if (Score.getScore().getplayerScore() > Score.getScore().getHighScore()) {
-						scoreLabel.setForeground(Color.RED);
-						Score.getScore().setHighScore(Score.getScore().getplayerScore());
-					}
-					highScoreTable = Integer.toString(Score.getScore().getHighScore());
-					highScoreLabel.setText("HIGHSCORE: " + highScoreTable);
-					if (getTime().getCurrentTime() > 1000)
-						startEndGame.setVisible(false);
-					if (getLevel().getPlayer().isDeadPLayer()) {
-						ScoreSaver.getScoreSaver().output();
-						try {
-							ScoreSaver.getScoreSaver().getOut().writeObject(Score.getScore());
-							ScoreSaver.getScoreSaver().getOut().close();
-							ScoreSaver.getScoreSaver().getOutFile().close();
-							System.out.println("saved");
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						startEndGame.setText("Game Over");
-						startEndGame.setForeground(Color.RED);
-						startEndGame.setVisible(true);
-					}
+		setThread(new Thread(() -> {
+			while (!getLevel().getPlayer().isDeadPLayer()) {
+				level.update();
+				scoreTable = Integer.toString(Score.getScore().getPlayerScore());
+				scoreLabel.setText("SCORE: " + scoreTable);
+				if (Score.getScore().getPlayerScore() > Score.getScore().getHighScore()) {
+					scoreLabel.setForeground(Color.RED);
+					Score.getScore().setHighScore(Score.getScore().getPlayerScore());
+				}
+				highScoreTable = Integer.toString(Score.getScore().getHighScore());
+				highScoreLabel.setText("HIGHSCORE: " + highScoreTable);
+				if (getTime().getCurrentTime() > 1000)
+					startEndGame.setVisible(false);
+				if (getLevel().getPlayer().isDeadPLayer()) {
+					ScoreSaver.getScoreSaver().output();
 					try {
-						gameThredsManager.await();
-					} catch (InterruptedException |
-							 BrokenBarrierException e1) {
-						e1.printStackTrace();
-					}
-					try {
-						Thread.sleep(17);
-					} catch (InterruptedException e) {
+						ScoreSaver.getScoreSaver().getOut().writeObject(Score.getScore());
+						ScoreSaver.getScoreSaver().getOut().close();
+						ScoreSaver.getScoreSaver().getOutFile().close();
+						System.out.println("saved");
+					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					startEndGame.setText("Game Over");
+					startEndGame.setForeground(Color.RED);
+					startEndGame.setVisible(true);
 				}
-
+				try {
+					gameThredsManager.await();
+				} catch (InterruptedException |
+						 BrokenBarrierException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					Thread.sleep(17);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+
 		}));
 		thread.start();
 	}
 
 	public void gameRender() {
-		setThread2(new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				while (true) {
-					Game.this.repaint();
-					try {
-						gameThredsManager.await();
-					} catch (InterruptedException | BrokenBarrierException e1) {
-						e1.printStackTrace();
-					}
-					try {
-						Thread.sleep(17);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+		setThread2(new Thread(() -> {
+			while (true) {
+				Game.this.repaint();
+				try {
+					gameThredsManager.await();
+				} catch (InterruptedException | BrokenBarrierException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					Thread.sleep(17);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		}));
 		thread2.start();
-	}
-
-	public void gameOver() {
-		if (SpriteGame.getSpriteGame().getGame().level.getPlayer().isDeadPLayer())
-			try {
-				thread.join();
-				System.out.println("are u there");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 	}
 
 	public Level getLevel() {

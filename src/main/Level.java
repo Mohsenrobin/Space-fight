@@ -12,16 +12,16 @@ public class Level implements Serializable {
 	private final Enemy[] enemy;
 	private transient Image backgroundImage;
 	private int scale;
-	private int numberOfenemies;
+	private final int numberOfEnemies;
 	private int deadEnemies;
 	private final String imageLocation;
 
-	public Level(String name, int numberOfenemies) {
-		imageLocation = "images\\space.JPG";
-		player = new Player((SpriteGame.getSpriteGame().getWidth() / 2) - 40,
+	public Level(int numberOfenemies) {
+		imageLocation = "images\\ferenc-horvath-skcFiBu91AA-unsplash.jpg";
+		player = new Player((SpriteGame.getSpriteGame().getWidth() / 2.0) - 40,
 				SpriteGame.getSpriteGame().getHeight() - 150);
 		this.scale = 1;
-		this.numberOfenemies = numberOfenemies;
+		this.numberOfEnemies = numberOfenemies;
 		enemy = new Enemy[numberOfenemies];
 		for (int i = 0; i < enemy.length; i++, scale++) {
 			if (scale > 4)
@@ -30,11 +30,10 @@ public class Level implements Serializable {
 			int enemyXposition;
 			if (i - 4 < 0) {
 				enemyYposition = 100;
-				enemyXposition = (SpriteGame.getSpriteGame().getWidth() / (numberOfenemies + 1) * scale) - 20;
 			} else {
 				enemyYposition = 140;
-				enemyXposition = (SpriteGame.getSpriteGame().getWidth() / (numberOfenemies + 1) * scale) - 20;
 			}
+			enemyXposition = (SpriteGame.getSpriteGame().getWidth() / (numberOfenemies + 1) * scale) - 20;
 			enemy[i] = new Enemy(enemyXposition, enemyYposition, "Yellow");
 		}
 	}
@@ -82,14 +81,13 @@ public class Level implements Serializable {
 					scale = 1;
 				if (getDeadEnemies() <= 4)
 					enemy[i] = new Enemy(
-							((SpriteGame.getSpriteGame().getWidth() / (this.getNumberOfenemies() + 1) * scale) - 20),
+							((SpriteGame.getSpriteGame().getWidth() / (float) (this.getNumberOfEnemies() + 1) * scale) - 20),
 							100, "Yellow");
 				else
 					enemy[i] = new Enemy(
-							((SpriteGame.getSpriteGame().getWidth() / (this.getNumberOfenemies() + 1) * scale) - 20),
+							((SpriteGame.getSpriteGame().getWidth() /(float) (this.getNumberOfEnemies() + 1) * scale) - 20),
 							100, "Red");
 				scale++;
-				System.out.println(i + " created again         level/update   " + numberOfenemies + scale);
 			}
 		}
 	}
@@ -110,8 +108,8 @@ public class Level implements Serializable {
 		return enemy;
 	}
 
-	public int getNumberOfenemies() {
-		return numberOfenemies;
+	public int getNumberOfEnemies() {
+		return numberOfEnemies;
 	}
 
 	public int getDeadEnemies() {

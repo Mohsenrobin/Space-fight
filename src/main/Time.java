@@ -3,7 +3,6 @@ package main;
 public class Time {
 
 	private long StartTime;
-	private long currentTime;
 
 	Time() {
 		setStartTime(System.currentTimeMillis());
@@ -18,12 +17,7 @@ public class Time {
 	}
 
 	public long getCurrentTime() {
-		currentTime = ((System.currentTimeMillis() - getStartTime()));
-		return currentTime;
-	}
-
-	public void setCurrentTime(long currentTime) {
-		this.currentTime = currentTime;
+		return ((System.currentTimeMillis() - getStartTime()));
 	}
 
 }

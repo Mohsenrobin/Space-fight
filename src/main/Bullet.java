@@ -1,53 +1,41 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 
 public class Bullet implements Serializable {
 
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 1L;
 	private double x;
 	private double y;
-	private int width;
-	private int height;
+	private final int width;
+	private final int height;
 	private boolean isHot;
-	private Color c;
-	private Rectangle bulletShape;
+	private final Rectangle bulletShape;
 	private boolean enemyDetector;
-	private Random random;
 	private transient Image bulletImage;
 
-	public boolean isHittedToEnemy() {
-		return hittedToEnemy;
-	}
-
-	public void setHittedToEnemy(boolean hittedToEnemy) {
-		this.hittedToEnemy = hittedToEnemy;
-	}
-
 	private boolean hittedToEnemy;
-	Bullet(boolean enemyDetecter, int x, int y, int width, int height, Color c, boolean isHot) {
+	Bullet(boolean enemyDetecter, int x, int y, int width, int height, boolean isHot) {
 		this.setX(x);
 		this.setY(y);
 		this.width = width;
 		this.height = height;
-		this.c = c;
 		this.setHot(isHot);
 		hittedToEnemy = false;
 
 		bulletShape = new Rectangle();
-		random = new Random();
+		Random random = new Random();
 		this.setEnemyDetector(enemyDetecter);
 		random.nextInt(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy().length);
 		try {
@@ -77,7 +65,7 @@ public class Bullet implements Serializable {
 			if (SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i] != null) {
 				if (this.getBounds()
 						.intersects(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getBounds())
-						&& SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].isDead() == false && isHot()) {
+						&& !SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].isDead() && isHot()) {
 					setHot(false);
 					hittedToEnemy = true;
 					SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].setEnemyHealth(
@@ -85,10 +73,10 @@ public class Bullet implements Serializable {
 					if (SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getEnemyHealth() == 0) {
 						SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].setDead(true);
 						System.out.println("ENEMY dead");
-						if (SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getKindOfEnemy() == "Yellow")
-							Score.getScore().setplayerScore(Score.getScore().getplayerScore() + 100);
+						if (Objects.equals(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getKindOfEnemy(), "Yellow"))
+							Score.getScore().setPlayerScore(Score.getScore().getPlayerScore() + 100);
 						else
-							Score.getScore().setplayerScore(Score.getScore().getplayerScore() + 200);
+							Score.getScore().setPlayerScore(Score.getScore().getPlayerScore() + 200);
 
 					}
 				}
@@ -101,15 +89,6 @@ public class Bullet implements Serializable {
 			setY(getY() - 2.8);
 		else
 			setY(getY() - 6.8);
-	}
-
-	public void smartBulllet(Enemy enemy) {
-		if (this.getX() > enemy.getX() && Math.abs(this.getX() - enemy.getX()) > 20)
-			setX(getX() - 2.8);
-
-		else if (this.getX() < enemy.getX() && Math.abs(this.getX() - enemy.getX()) > 20)
-			setX(getX() + 2.8);
-
 	}
 
 	public double getX() {
@@ -136,14 +115,6 @@ public class Bullet implements Serializable {
 		this.isHot = isHot;
 	}
 
-	public Color getC() {
-		return c;
-	}
-
-	public void setC(Color c) {
-		this.c = c;
-	}
-
 	public boolean isEnemyDetector() {
 		return enemyDetector;
 	}
@@ -156,16 +127,8 @@ public class Bullet implements Serializable {
 		return width;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
 	public int getHeight() {
 		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
 	}
 
 }

@@ -14,11 +14,11 @@ public class Score implements Serializable{
 		this.highScore = 0;
 	}
 	
-	public int getplayerScore() {
+	public int getPlayerScore() {
 		return playerScore;
 	}
 
-	public void setplayerScore(int score) {
+	public void setPlayerScore(int score) {
 		this.playerScore = score;
 	}
 

@@ -17,7 +17,6 @@ public class Player implements Serializable {
 	private boolean leftGoing;
 
 	private boolean canShooting;
-	private long coolDown;
 	private final transient Rectangle playerShape;
 	private boolean deadPLayer;
 	private boolean shot;
@@ -84,13 +83,6 @@ public class Player implements Serializable {
 
 		}
 	}
-	public boolean isCanShooting() {
-		return canShooting;
-	}
-
-	public void setCanShooting(boolean canShooting) {
-		this.canShooting = canShooting;
-	}
 	public boolean isShot() {
 		return shot;
 	}
@@ -122,7 +114,7 @@ public class Player implements Serializable {
 				bulletCounter = 0;
 
 			bullets[bulletCounter] = new Bullet(false, (int) this.getX() + (spaceShipImage.getWidth(null) / 15),
-					(int) this.getY(), 15, 25, Color.ORANGE, true);
+					(int) this.getY(), 15, 25, true);
 			if (bulletCounter % 2 == 0)
 				this.getBullets()[bulletCounter].setX(this.getBullets()[bulletCounter].getX() + 40);
 
@@ -149,10 +141,6 @@ public class Player implements Serializable {
 		this.x = x;
 	}
 
-	public void setY(double y) {
-		this.y = y;
-	}
-
 	public boolean isRightGoing() {
 		return rightGoing;
 	}
@@ -168,15 +156,6 @@ public class Player implements Serializable {
 	public void setLeftGoing(boolean leftGoing) {
 		this.leftGoing = leftGoing;
 	}
-
-	public void moveUp() {
-		setY(getY() - 3.8);
-	}
-
-	public void moveDown() {
-		setY(getY() + 3.8);
-	}
-
 	public void moveleft() {
 		if (this.getX() > 0)
 			setX(getX() - 3.8);
@@ -195,22 +174,13 @@ public class Player implements Serializable {
 		this.deadPLayer = deadPLayer;
 	}
 
-	public long getShootControl() {
-		return shootControl;
-	}
-
 	public void setShootControl(long shootControl) {
 		this.shootControl = shootControl;
-	}
-
-	public long getAnimating() {
-		return animating;
 	}
 
 	public void setAnimating(long animating) {
 		this.animating = animating;
 	}
-
 	public long getShootControlV2() {
 		return shootControlV2;
 	}
