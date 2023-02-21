@@ -8,16 +8,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class ScoreSaver {
-	FileOutputStream outFile;
-	ObjectOutputStream out;
-	FileInputStream inFile;
-	ObjectInputStream in;
+	private FileOutputStream outFile;
+	private ObjectOutputStream out;
+	private FileInputStream inFile;
+	private ObjectInputStream in;
 	private static ScoreSaver scoreSaver = new ScoreSaver();
 	
 
 	public void input(){
 		try {
-			inFile = new FileInputStream("save.data");
+			inFile = new FileInputStream("save.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class ScoreSaver {
 	}
 public void output(){
 	try {
-		outFile = new FileOutputStream("save.data");
+		outFile = new FileOutputStream("save.txt");
 	} catch (FileNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -51,5 +51,36 @@ public void output(){
 	public static void setScoreSaver(ScoreSaver scoreSaver) {
 		ScoreSaver.scoreSaver = scoreSaver;
 	}
-	
+
+	public FileOutputStream getOutFile() {
+		return outFile;
+	}
+
+	public void setOutFile(FileOutputStream outFile) {
+		this.outFile = outFile;
+	}
+
+	public ObjectOutputStream getOut() {
+		return out;
+	}
+
+	public void setOut(ObjectOutputStream out) {
+		this.out = out;
+	}
+
+	public FileInputStream getInFile() {
+		return inFile;
+	}
+
+	public void setInFile(FileInputStream inFile) {
+		this.inFile = inFile;
+	}
+
+	public ObjectInputStream getIn() {
+		return in;
+	}
+
+	public void setIn(ObjectInputStream in) {
+		this.in = in;
+	}
 }

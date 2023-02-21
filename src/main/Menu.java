@@ -56,13 +56,13 @@ public class Menu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				SpriteGame.getSpriteGame().getGame().setTime(new Time());
 				SpriteGame.getSpriteGame().getGame().setLevel(new Level("level 1", 4));
-				Path saveData = Paths.get("save.data");
+				Path saveData = Paths.get("save.txt");
 				if (Files.exists(saveData)) {
 					try {
 						ScoreSaver.getScoreSaver().input();
-						Score.setScore((Score) ScoreSaver.getScoreSaver().in.readObject());
-						ScoreSaver.getScoreSaver().in.close();
-						ScoreSaver.getScoreSaver().inFile.close();
+						Score.setScore((Score) ScoreSaver.getScoreSaver().getIn().readObject());
+						ScoreSaver.getScoreSaver().getIn().close();
+						ScoreSaver.getScoreSaver().getInFile().close();
 					} catch (IOException | ClassNotFoundException e1) {
 						Score.setScore(Score.getScore());
 						System.out.println("New Score");
@@ -84,9 +84,9 @@ public class Menu extends JPanel {
 				SpriteGame.getSpriteGame().getGame().setLevel(new Level("level 1", 4));
 				try {
 					ScoreSaver.getScoreSaver().input();
-					Score.setScore((Score) ScoreSaver.getScoreSaver().in.readObject());
-					ScoreSaver.getScoreSaver().in.close();
-					ScoreSaver.getScoreSaver().inFile.close();
+					Score.setScore((Score) ScoreSaver.getScoreSaver().getIn().readObject());
+					ScoreSaver.getScoreSaver().getIn().close();
+					ScoreSaver.getScoreSaver().getInFile().close();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				} catch (IOException e1) {

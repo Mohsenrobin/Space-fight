@@ -7,7 +7,7 @@ public class Score implements Serializable{
 	
 	private transient int  playerScore ;
 	private int highScore;
-	private transient static Score score= new Score();
+	private static Score score= new Score();
 	
 	private Score (){
 		this.playerScore = 0;

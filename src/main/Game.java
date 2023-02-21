@@ -156,9 +156,9 @@ public class Game extends JPanel implements Runnable, ActionListener {
 					if (getLevel().getPlayer().isDeadPLayer()) {
 						ScoreSaver.getScoreSaver().output();
 						try {
-							ScoreSaver.getScoreSaver().out.writeObject(Score.getScore());
-							ScoreSaver.getScoreSaver().out.close();
-							ScoreSaver.getScoreSaver().outFile.close();
+							ScoreSaver.getScoreSaver().getOut().writeObject(Score.getScore());
+							ScoreSaver.getScoreSaver().getOut().close();
+							ScoreSaver.getScoreSaver().getOutFile().close();
 							System.out.println("saved");
 						} catch (IOException e) {
 							e.printStackTrace();
