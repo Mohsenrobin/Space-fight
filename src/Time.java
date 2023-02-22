@@ -1,5 +1,3 @@
-package main;
-
 public class Time {
 
 	private long StartTime;
