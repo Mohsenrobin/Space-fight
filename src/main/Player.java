@@ -10,7 +10,7 @@ public class Player{
 	private double x;
 	private double y;
 	private transient Image spaceShipImage;
-	private final Bullet[] bullets;
+	private final PlayerBullet[] bullets;
 	private int bulletCounter = 0;
 	private boolean rightGoing;
 	private boolean leftGoing;
@@ -25,7 +25,7 @@ public class Player{
 	private long animating;
 
 	public Player(double x, double y) {
-		bullets = new Bullet[10];
+		bullets = new PlayerBullet[10];
 		playerShape = new Rectangle();
 		rightGoing = false;
 		leftGoing = false;
@@ -95,12 +95,12 @@ public class Player{
 			moveRight();
 		if (isLeftGoing())
 			moveleft();
-		for (Bullet value : bullets)
+		for (PlayerBullet value : bullets)
 			if (value != null)
 				value.update();
 	}
 
-	public Bullet[] getBullets() {
+	public PlayerBullet[] getBullets() {
 		return bullets;
 	}
 
@@ -112,7 +112,7 @@ public class Player{
 			if (bulletCounter == bullets.length - 1)
 				bulletCounter = 0;
 
-			bullets[bulletCounter] = new Bullet(false, (int) this.getX() + (spaceShipImage.getWidth(null) / 15),
+			bullets[bulletCounter] = new PlayerBullet((int) this.getX() + (spaceShipImage.getWidth(null) / 15),
 					(int) this.getY(), 15, 25, true);
 			if (bulletCounter % 2 == 0)
 				this.getBullets()[bulletCounter].setX(this.getBullets()[bulletCounter].getX() + 40);

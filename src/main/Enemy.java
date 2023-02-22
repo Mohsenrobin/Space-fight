@@ -107,7 +107,7 @@ public class Enemy {
 			//for (int i = enemyBulletcounter; i <= enemyBullet.length;) {
 				enemyBullet[enemyBulletcounter] = new EnemyBullet(
 						(int) this.getX() + (enemySpaceShipImage.getWidth(null) / 2) - 5,
-						(int) this.getY() + enemySpaceShipImage.getHeight(null), 10, 20);
+						(int) this.getY() + enemySpaceShipImage.getHeight(null), 10, 20,this);
 			//	break;
 			//}
 			setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter());
