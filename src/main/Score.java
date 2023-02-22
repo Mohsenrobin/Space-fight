@@ -1,15 +1,12 @@
 package main;
-
-import java.io.Serializable;
-
-public class Score implements Serializable{
+public class Score {
 	
 	
-	private transient int  playerScore ;
+	private int  playerScore ;
 	private int highScore;
 	private static Score score= new Score();
 	
-	private Score (){
+	public Score (){
 		this.playerScore = 0;
 		this.highScore = 0;
 	}

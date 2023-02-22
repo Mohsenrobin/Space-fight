@@ -4,13 +4,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-
-public class Level implements Serializable {
+public class Level {
 
 	private final Player player;
 	private final Enemy[] enemy;
-	private transient Image backgroundImage;
+	private Image backgroundImage;
 	private int scale;
 	private final int numberOfEnemies;
 	private int deadEnemies;
@@ -68,7 +66,7 @@ public class Level implements Serializable {
 			if (enemy[i] != null) {
 				enemy[i].update();
 				if (enemy[i].isDead()) {
-					if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime()
+					if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime()
 							- enemy[i].getDeadTime() > 1001) {
 						enemy[i] = null;
 						setDeadEnemies(getDeadEnemies() + 1);

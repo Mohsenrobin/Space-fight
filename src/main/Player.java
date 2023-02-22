@@ -4,9 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 
-public class Player implements Serializable {
+public class Player{
 
 	private double x;
 	private double y;
@@ -20,7 +19,7 @@ public class Player implements Serializable {
 	private final transient Rectangle playerShape;
 	private boolean deadPLayer;
 	private boolean shot;
-	private transient Image deadImage;
+	private Image deadImage;
 	private long shootControl;
 	private long shootControlV2;
 	private long animating;
@@ -44,7 +43,7 @@ public class Player implements Serializable {
 		}
 		this.x = x;
 		this.y = y;
-		setAnimating(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime());
+		setAnimating(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
 
 	}
 
@@ -53,24 +52,24 @@ public class Player implements Serializable {
 			g.drawImage(deadImage, (int) this.getX(), (int) this.getY(), deadImage.getWidth(null),
 					deadImage.getHeight(null), null);
 		} else if (isShot()) {
-			System.out.println(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime()/100);
-			if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() <= 40)
+			System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime()/100);
+			if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() <= 40)
 				g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 3, spaceShipImage.getWidth(null),
 						spaceShipImage.getHeight(null), null);
-			else if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() <= 80)
+			else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() <= 80)
 				g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 6, spaceShipImage.getWidth(null),
 						spaceShipImage.getHeight(null), null);
-			else if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() <= 120)
+			else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() <= 120)
 				g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 9, spaceShipImage.getWidth(null),
 						spaceShipImage.getHeight(null), null);
-			else if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() <= 160)
+			else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() <= 160)
 				g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 6, spaceShipImage.getWidth(null),
 						spaceShipImage.getHeight(null), null);
-			else if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() <= 200)
+			else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() <= 200)
 				g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 3, spaceShipImage.getWidth(null),
 						spaceShipImage.getHeight(null), null);
 
-			if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() > 200) {
+			if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() > 200) {
 				System.out.println("PLAYER/draw");
 				setShot(false);
 				g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null),
@@ -107,7 +106,7 @@ public class Player implements Serializable {
 
 	public void shoot() {
 
-		if(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() > 500) {
+		if(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() > 500) {
 			setShot(true);
 			bulletCounter++;
 			if (bulletCounter == bullets.length - 1)
@@ -118,8 +117,8 @@ public class Player implements Serializable {
 			if (bulletCounter % 2 == 0)
 				this.getBullets()[bulletCounter].setX(this.getBullets()[bulletCounter].getX() + 40);
 
-			setShootControl(SpriteGame.getSpriteGame().getGame().getTimeCounter());
-			setShootControlV2(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime());
+			setShootControl(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter());
+			setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
 		}
 	}
 

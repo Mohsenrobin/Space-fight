@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -18,15 +19,15 @@ import javax.swing.Timer;
 public class Game extends JPanel implements Runnable, ActionListener {
 
 	private Level level;
-	private transient Thread thread;
-	private transient Thread thread2;
+	private Thread thread;
+	private Thread thread2;
 	private boolean pause;
-	private final transient CyclicBarrier gameThredsManager;
-	private final transient JLabel scoreLabel;
-	private final transient JLabel highScoreLabel;
-	private final transient JLabel startEndGame;
-	private String scoreTable;
-	private String highScoreTable;
+	private final CyclicBarrier gameThredsManager;
+	private final JLabel scoreLabel;
+	private final JLabel highScoreLabel;
+	private final JLabel startEndGame;
+	private int scoreTable;
+	private int highScoreTable;
 	private Time time;
 	private final Timer timer;
 	private long timeCounter;
@@ -43,7 +44,7 @@ public class Game extends JPanel implements Runnable, ActionListener {
 		setLayout(null);
 		Thread pauseThread = new Thread(this);
 		pauseThread.start();
-		setBounds(0, 0, SpriteGame.getSpriteGame().getWidth(), SpriteGame.getSpriteGame().getHeight());
+		setBounds(0, 0, 400, 700);
 		scoreLabel = new JLabel();
 		scoreLabel.setBounds(0, 0, 200, 50);
 		scoreLabel.setFont(new Font("Serif", Font.BOLD, 20));
@@ -135,22 +136,22 @@ public class Game extends JPanel implements Runnable, ActionListener {
 		setThread(new Thread(() -> {
 			while (!getLevel().getPlayer().isDeadPLayer()) {
 				level.update();
-				scoreTable = Integer.toString(Score.getScore().getPlayerScore());
+				scoreTable = Score.getScore().getPlayerScore();
 				scoreLabel.setText("SCORE: " + scoreTable);
 				if (Score.getScore().getPlayerScore() > Score.getScore().getHighScore()) {
 					scoreLabel.setForeground(Color.RED);
 					Score.getScore().setHighScore(Score.getScore().getPlayerScore());
 				}
-				highScoreTable = Integer.toString(Score.getScore().getHighScore());
+				highScoreTable = Score.getScore().getHighScore();
 				highScoreLabel.setText("HIGHSCORE: " + highScoreTable);
 				if (getTime().getCurrentTime() > 1000)
 					startEndGame.setVisible(false);
 				if (getLevel().getPlayer().isDeadPLayer()) {
-					ScoreSaver.getScoreSaver().output();
 					try {
-						ScoreSaver.getScoreSaver().getOut().writeObject(Score.getScore());
-						ScoreSaver.getScoreSaver().getOut().close();
-						ScoreSaver.getScoreSaver().getOutFile().close();
+						FileWriter writer = new FileWriter("save.txt");
+						writer.write("" + Score.getScore().getHighScore());
+						System.out.println(Score.getScore().getHighScore()+"!!!!!!!!!!!!!!!!!!!!");
+						writer.close();
 						System.out.println("saved");
 					} catch (IOException e) {
 						e.printStackTrace();

@@ -4,18 +4,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-public class Bullet implements Serializable {
+public class Bullet {
 
-	/**
-	 * 
-	 */
-	@Serial
-	private static final long serialVersionUID = 1L;
 	private double x;
 	private double y;
 	private final int width;
@@ -23,7 +16,7 @@ public class Bullet implements Serializable {
 	private boolean isHot;
 	private final Rectangle bulletShape;
 	private boolean enemyDetector;
-	private transient Image bulletImage;
+	private Image bulletImage;
 
 	private boolean hittedToEnemy;
 	Bullet(boolean enemyDetecter, int x, int y, int width, int height, boolean isHot) {
@@ -37,7 +30,7 @@ public class Bullet implements Serializable {
 		bulletShape = new Rectangle();
 		Random random = new Random();
 		this.setEnemyDetector(enemyDetecter);
-		random.nextInt(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy().length);
+		random.nextInt(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy().length);
 		try {
 			bulletImage = ImageIO.read(new File("images\\BlueBullet.png")).getScaledInstance(15, 25,
 					Image.SCALE_AREA_AVERAGING);
@@ -61,19 +54,19 @@ public class Bullet implements Serializable {
 	public void update() {
 		if (isHot())
 			moveUp();
-		for (int i = 0; i < SpriteGame.getSpriteGame().getGame().getLevel().getEnemy().length; i++) {
-			if (SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i] != null) {
+		for (int i = 0; i < SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy().length; i++) {
+			if (SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i] != null) {
 				if (this.getBounds()
-						.intersects(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getBounds())
-						&& !SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].isDead() && isHot()) {
+						.intersects(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getBounds())
+						&& !SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].isDead() && isHot()) {
 					setHot(false);
 					hittedToEnemy = true;
-					SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].setEnemyHealth(
-							SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getEnemyHealth() - 1);
-					if (SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getEnemyHealth() == 0) {
-						SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].setDead(true);
+					SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].setEnemyHealth(
+							SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getEnemyHealth() - 1);
+					if (SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getEnemyHealth() == 0) {
+						SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].setDead(true);
 						System.out.println("ENEMY dead");
-						if (Objects.equals(SpriteGame.getSpriteGame().getGame().getLevel().getEnemy()[i].getKindOfEnemy(), "Yellow"))
+						if (Objects.equals(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getKindOfEnemy(), "Yellow"))
 							Score.getScore().setPlayerScore(Score.getScore().getPlayerScore() + 100);
 						else
 							Score.getScore().setPlayerScore(Score.getScore().getPlayerScore() + 200);

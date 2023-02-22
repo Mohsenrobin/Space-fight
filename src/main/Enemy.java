@@ -1,26 +1,22 @@
 package main;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Objects;
 
-import javax.imageio.ImageIO;
-
-public class Enemy implements Serializable {
+public class Enemy {
 
 	private double x;
 	private final double y;
-	private transient Image enemySpaceShipImage;
+	private Image enemySpaceShipImage;
 	private final EnemyBullet[] enemyBullet;
 	private int enemyBulletcounter;
 	private final Rectangle enemyShape;
 	private boolean enemyShoooted;
 	private boolean dead;
-	private transient Image enemyDeadImage;
+	private Image enemyDeadImage;
 	private long deadTime = 0;
 	private long shootControlV2;
 	private boolean canShooting;
@@ -62,13 +58,13 @@ public class Enemy implements Serializable {
 	public void draw(Graphics g) {
 
 		if (this.isDead()) {
-			if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getDeadTime() <= 1000) {
+			if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getDeadTime() <= 1000) {
 				g.drawImage(enemyDeadImage, (int) this.getX(), (int) this.getY(), enemyDeadImage.getWidth(null),
 						enemyDeadImage.getHeight(null), null);
 			}
 		} else {
 			if (isEnemyShoooted()) {
-				int value = (int) (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime()
+				int value = (int) (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime()
 						- getShootControlV2());
 				if (value <= 40)
 					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 3,
@@ -86,7 +82,7 @@ public class Enemy implements Serializable {
 					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 3,
 							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
 
-				if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() > 200) {
+				if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() > 200) {
 					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY(),
 							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
 					setEnemyShoooted(false);
@@ -114,10 +110,10 @@ public class Enemy implements Serializable {
 						(int) this.getY() + enemySpaceShipImage.getHeight(null), 10, 20);
 			//	break;
 			//}
-			setShootControlV2(SpriteGame.getSpriteGame().getGame().getTimeCounter());
-			setShootControlV2(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime());
-			System.out.println(SpriteGame.getSpriteGame().getGame().getTimeCounter() + "sadadasdasdads");
-			System.out.println(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() + "rhjretyerty");
+			setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter());
+			setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
+			System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter() + "sadadasdasdads");
+			System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() + "rhjretyerty");
 		}
 	}
 
@@ -153,14 +149,14 @@ public class Enemy implements Serializable {
 		if (!this.isDead()) {
 			if (Math.random() > 0.99 && this.getX() > 0) {
 				if (getCanGoingLeft() < (SpriteGame.getSpriteGame().getWidth()
-						/(float) ((SpriteGame.getSpriteGame().getGame().getLevel().getNumberOfEnemies() + 1) / 2))) {
+						/(float) ((SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getNumberOfEnemies() + 1) / 2))) {
 					moveleft();
 					setCanGoingLeft(getCanGoingLeft() + getX());
 				}
 			}
 			if (Math.random() < 0.01 && this.getX() < SpriteGame.getSpriteGame().getWidth()) {
 				if (getCanGoingRight() < (SpriteGame.getSpriteGame().getWidth()
-						/(float) ((SpriteGame.getSpriteGame().getGame().getLevel().getNumberOfEnemies() + 1) / 2))) {
+						/(float) ((SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getNumberOfEnemies() + 1) / 2))) {
 					moveRight();
 					setCanGoingRight(getCanGoingRight() + getX());
 				}
@@ -171,14 +167,14 @@ public class Enemy implements Serializable {
 					waitTime = 2500;
 				else
 					waitTime = 5000;
-				if (SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime() - getShootControlV2() > waitTime) {
+				if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() > waitTime) {
 					setCanShooting(true);
 					shoot();
 					setCanShooting(false);
 				}
 			}
 		} else if (getDeadTime() == 0) {
-			setDeadTime(SpriteGame.getSpriteGame().getGame().getTime().getCurrentTime());
+			setDeadTime(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
 			// System.out.println(getDeadTime() + " enemy/update");
 		}
 		for (EnemyBullet bullet : enemyBullet)

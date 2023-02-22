@@ -2,19 +2,22 @@ package main;
 
 
 import javax.swing.JFrame;
+import java.awt.*;
 
 public class SpriteGame extends JFrame{
 
 	
-	private Menu menu;
+	private final Menu menu;
 	private static SpriteGame spriteGame;
-	private Game game;
 
+	public Menu getMenu() {
+		return menu;
+	}
 
 	private SpriteGame(String s) {
 
 		setLayout(null);
-		setSize(400, 700);
+		setPreferredSize(new Dimension(400, 700));
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,7 +25,10 @@ public class SpriteGame extends JFrame{
 		setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
 		setLocation(200, 40);
-		
+		menu = new Menu();
+		getContentPane().add(menu);
+		pack();
+		setVisible(true);
 	}
 
 	public static SpriteGame getSpriteGame() {
@@ -37,17 +43,11 @@ public class SpriteGame extends JFrame{
 
 	private static void init() {
 
-		spriteGame.menu = new Menu();
-		spriteGame.getContentPane().add(spriteGame.menu);
-		spriteGame.menu.repaint();
-		spriteGame.getContentPane().add(spriteGame.getGame());
+
+		//spriteGame.menu.repaint();
+
+
 	}
 
-	public Game getGame() {
-		return game;
-	}
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
 }
