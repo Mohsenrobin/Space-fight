@@ -1,8 +1,3 @@
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
 public class Player extends Shooter{
 
 	private boolean rightGoing;
@@ -12,7 +7,7 @@ public class Player extends Shooter{
 	public Player(double x, double y) {
 		super(x,y,"images\\BluePlane.PNG");
 
-		setBullets( new PlayerBullet[10]);
+		setBullets( new PlayerBullet[9]);
 		rightGoing = false;
 		leftGoing = false;
 	}

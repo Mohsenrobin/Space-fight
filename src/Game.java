@@ -20,29 +20,60 @@ public class Game extends JPanel implements Runnable, ActionListener {
 	private Thread thread;
 	private Thread thread2;
 	private boolean pause;
-	private final CyclicBarrier gameThredsManager;
-	private final JLabel scoreLabel;
-	private final JLabel highScoreLabel;
-	private final JLabel startEndGame;
+	private final CyclicBarrier gameThreadsManager;
+	private JLabel scoreLabel;
+	private JLabel highScoreLabel;
+	private JLabel startEndGame;
 	private int scoreTable;
 	private int highScoreTable;
 	private Time time;
 	private final Timer timer;
 	private long timeCounter;
 
-	public long getTimeCounter() {
-		return timeCounter;
-	}
-
 	public Game() {
 
 		timeCounter = 0;
 		timer = new Timer(170, this);
-		gameThredsManager = new CyclicBarrier(3);
+		gameThreadsManager = new CyclicBarrier(3);
 		setLayout(null);
 		Thread pauseThread = new Thread(this);
 		pauseThread.start();
 		setBounds(0, 0, 400, 700);
+		getLabelsDisplay();
+		addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_RIGHT ->
+							level.getPlayer().setRightGoing(false);
+					case KeyEvent.VK_LEFT ->
+							level.getPlayer().setLeftGoing(false);
+				}
+			}
+			@Override
+			public synchronized void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_RIGHT ->
+							level.getPlayer().setRightGoing(true);
+					case KeyEvent.VK_LEFT ->
+							level.getPlayer().setLeftGoing(true);
+					case KeyEvent.VK_SPACE ->
+							level.getPlayer().shoot();
+					case KeyEvent.VK_ENTER -> pause = !pause;
+					default ->
+							throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
+				}
+			}
+		});
+		this.setFocusable(true);
+		this.requestFocus();
+		this.setFocusTraversalKeysEnabled(false);
+	}
+
+	public void getLabelsDisplay(){
 		scoreLabel = new JLabel();
 		scoreLabel.setBounds(0, 0, 200, 50);
 		scoreLabel.setFont(new Font("Serif", Font.BOLD, 20));
@@ -60,47 +91,6 @@ public class Game extends JPanel implements Runnable, ActionListener {
 		add(startEndGame);
 		startEndGame.setVisible(true);
 		startEndGame.setText("     Start");
-		addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				switch (e.getKeyCode()) {
-					case KeyEvent.VK_RIGHT ->
-							level.getPlayer().setRightGoing(false);
-					case KeyEvent.VK_LEFT ->
-							level.getPlayer().setLeftGoing(false);
-				}
-			}
-
-			@Override
-			public synchronized void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_RIGHT:
-					level.getPlayer().setRightGoing(true);
-					break;
-				case KeyEvent.VK_LEFT:
-					level.getPlayer().setLeftGoing(true);
-					break;
-				case KeyEvent.VK_SPACE:
-					level.getPlayer().shoot();
-					break;
-				case KeyEvent.VK_Z:
-					break;
-				case KeyEvent.VK_ENTER:
-					pause = !pause;
-					break;
-					default:
-						throw new IllegalStateException("Unexpected value: " + e.getKeyCode());
-				}
-			}
-		});
-		this.setFocusable(true);
-		this.requestFocus();
-		this.setFocusTraversalKeysEnabled(false);
 	}
 
 	@Override
@@ -115,7 +105,7 @@ public class Game extends JPanel implements Runnable, ActionListener {
 		while (true) {
 			if (!pause) {
 				try {
-					gameThredsManager.await();
+					gameThreadsManager.await();
 				} catch (InterruptedException |
 						 BrokenBarrierException e) {
 					e.printStackTrace();
@@ -141,25 +131,17 @@ public class Game extends JPanel implements Runnable, ActionListener {
 					Score.getScore().setHighScore(Score.getScore().getPlayerScore());
 				}
 				highScoreTable = Score.getScore().getHighScore();
-				highScoreLabel.setText("HIGHSCORE: " + highScoreTable);
+				highScoreLabel.setText("HIGH SCORE: " + highScoreTable);
 				if (getTime().getCurrentTime() > 1000)
 					startEndGame.setVisible(false);
 				if (getLevel().getPlayer().isDeadShooter()) {
-					try {
-						FileWriter writer = new FileWriter("save.txt");
-						writer.write("" + Score.getScore().getHighScore());
-						System.out.println(Score.getScore().getHighScore()+"!!!!!!!!!!!!!!!!!!!!");
-						writer.close();
-						System.out.println("saved");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					save();
 					startEndGame.setText("Game Over");
 					startEndGame.setForeground(Color.RED);
 					startEndGame.setVisible(true);
 				}
 				try {
-					gameThredsManager.await();
+					gameThreadsManager.await();
 				} catch (InterruptedException |
 						 BrokenBarrierException e1) {
 					e1.printStackTrace();
@@ -175,12 +157,24 @@ public class Game extends JPanel implements Runnable, ActionListener {
 		thread.start();
 	}
 
+	private void save(){
+		try {
+			FileWriter writer = new FileWriter("save.txt");
+			writer.write("" + Score.getScore().getHighScore());
+			System.out.println(Score.getScore().getHighScore()+"!!!!!!!!!!!!!!!!!!!!");
+			writer.close();
+			System.out.println("saved");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void gameRender() {
 		setThread2(new Thread(() -> {
 			while (true) {
 				Game.this.repaint();
 				try {
-					gameThredsManager.await();
+					gameThreadsManager.await();
 				} catch (InterruptedException | BrokenBarrierException e1) {
 					e1.printStackTrace();
 				}

@@ -6,11 +6,7 @@ import java.io.IOException;
 public class EnemyBullet extends Bullet {
 
 	private Image bulletImage;
-	private String enemyType;
 
-	{
-
-	}
 	EnemyBullet(int x, int y, int width, int height,Enemy enemy) {
 		super(x,y,width,height );
 
@@ -38,11 +34,10 @@ public class EnemyBullet extends Bullet {
 	public void update() {
 		moveDown();
 		if (this.getBounds().intersects(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().getBounds())
-				&& !SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().isDeadShooter()) {
-			this.setHot();
+		) {
 			SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().setDeadPLayer(true);
 			System.out.println("Player dead");
-			super.setHitEnemy(true);
+			setHitEnemy(true);
 		}
 	}
 

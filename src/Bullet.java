@@ -8,7 +8,6 @@ public abstract class Bullet {
     private final int width;
     private final int height;
     private final Rectangle bulletShape;
-    private Image bulletImage;
     private boolean hitEnemy;
 
     Bullet(int x, int y, int width, int height) {
@@ -37,13 +36,6 @@ public abstract class Bullet {
         setY(getY() + 6.8);
     }
 
-    public Image getBulletImage() {
-        return bulletImage;
-    }
-
-    public void setBulletImage(Image bulletImage) {
-        this.bulletImage = bulletImage;
-    }
 
     public double getX() {
         return x;
@@ -67,9 +59,6 @@ public abstract class Bullet {
 
     public void setY(double y) {
         this.y = y;
-    }
-
-    public void setHot() {
     }
 
     public int getWidth() {

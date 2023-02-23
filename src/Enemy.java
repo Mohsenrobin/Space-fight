@@ -10,15 +10,14 @@ public class Enemy extends Shooter{
 	private boolean canShooting;
 	private double canGoingRight;
 	private double canGoingLeft;
-	private String kindOfEnemy;
+	private final String kindOfEnemy;
 	private int enemyHealth;
 
 	public Enemy(double x, double y, String kindOfEnemy) {
 		super(x,y,"images\\RedPlane.PNG");
 
-		setBullets( new EnemyBullet[10]);
+		setBullets( new EnemyBullet[9]);
 		canShooting = true;
-
 
 		this.kindOfEnemy = kindOfEnemy;
 		if (Objects.equals(kindOfEnemy, "Red"))
@@ -46,16 +45,11 @@ public class Enemy extends Shooter{
 				getBullets()[bulletCounter].setY(this.getY());
 			}
 
-			//for (int i = enemyBulletcounter; i <= enemyBullet.length;) {
 			getBullets()[bulletCounter] = new EnemyBullet(
 						(int) this.getX() + (getSpaceShipImage().getWidth(null) / 2) - 5,
 						(int) this.getY() + getSpaceShipImage().getHeight(null), 10, 20,this);
-			//	break;
-			//}
-			//setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter());
+
 			setShootControl(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
-			//System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter() + "sadadasdasdads");
-			//System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() + "rhjretyerty");
 		}
 	}
 

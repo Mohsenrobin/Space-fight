@@ -12,13 +12,13 @@ public class Level {
 	private int deadEnemies;
 	private final String imageLocation;
 
-	public Level(int numberOfenemies) {
+	public Level(int numberOfEnemies) {
 		imageLocation = "images\\ferenc-horvath-skcFiBu91AA-unsplash.jpg";
 		player = new Player((SpriteGame.getSpriteGame().getWidth() / 2.0) - 40,
 				SpriteGame.getSpriteGame().getHeight() - 150);
 		this.scale = 1;
-		this.numberOfEnemies = numberOfenemies;
-		enemy = new Enemy[numberOfenemies];
+		this.numberOfEnemies = numberOfEnemies;
+		enemy = new Enemy[numberOfEnemies];
 		for (int i = 0; i < enemy.length; i++, scale++) {
 			if (scale > 4)
 				scale = 1;
@@ -29,7 +29,7 @@ public class Level {
 			} else {
 				enemyYposition = 140;
 			}
-			enemyXposition = (SpriteGame.getSpriteGame().getWidth() / (numberOfenemies + 1) * scale) - 20;
+			enemyXposition = (SpriteGame.getSpriteGame().getWidth() / (numberOfEnemies + 1) * scale) - 20;
 			enemy[i] = new Enemy(enemyXposition, enemyYposition, "Yellow");
 		}
 	}

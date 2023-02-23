@@ -43,24 +43,24 @@ public abstract class Shooter {
             g.drawImage(deadImage, (int) this.getX(), (int) this.getY(), deadImage.getWidth(null),
                     deadImage.getHeight(null), null);
         } else if (isShot()) {
-            //System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime()/100);
-            if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() <= 40)
+            long value = SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl();
+            if (value <= 40)
                 g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 3, spaceShipImage.getWidth(null),
                         spaceShipImage.getHeight(null), null);
-            else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() <= 80)
+            else if (value <= 80)
                 g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 6, spaceShipImage.getWidth(null),
                         spaceShipImage.getHeight(null), null);
-            else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() <= 120)
+            else if (value <= 120)
                 g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 9, spaceShipImage.getWidth(null),
                         spaceShipImage.getHeight(null), null);
-            else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() <= 160)
+            else if (value <= 160)
                 g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 6, spaceShipImage.getWidth(null),
                         spaceShipImage.getHeight(null), null);
-            else if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() <= 200)
+            else if (value <= 200)
                 g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 3, spaceShipImage.getWidth(null),
                         spaceShipImage.getHeight(null), null);
 
-            if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() > 200) {
+            if (value > 200) {
                 setShot(false);
                 g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null),
                         spaceShipImage.getHeight(null), null);
