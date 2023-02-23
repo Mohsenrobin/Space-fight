@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.Random;
 
-public class Bullet {
+public abstract class Bullet {
 
     private double x;
     private double y;
@@ -29,7 +29,9 @@ public class Bullet {
         return bulletShape;
     }
 
-    public void update(){}
+    public abstract void update();
+
+    public abstract void draw(Graphics g);
 
     public void moveDown() {
         setY(getY() + 6.8);

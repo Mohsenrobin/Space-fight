@@ -132,7 +132,7 @@ public class Game extends JPanel implements Runnable, ActionListener {
 	public void gameUpdate() {
 		timer.start();
 		setThread(new Thread(() -> {
-			while (!getLevel().getPlayer().isDeadPLayer()) {
+			while (!getLevel().getPlayer().isDeadShooter()) {
 				level.update();
 				scoreTable = Score.getScore().getPlayerScore();
 				scoreLabel.setText("SCORE: " + scoreTable);
@@ -144,7 +144,7 @@ public class Game extends JPanel implements Runnable, ActionListener {
 				highScoreLabel.setText("HIGHSCORE: " + highScoreTable);
 				if (getTime().getCurrentTime() > 1000)
 					startEndGame.setVisible(false);
-				if (getLevel().getPlayer().isDeadPLayer()) {
+				if (getLevel().getPlayer().isDeadShooter()) {
 					try {
 						FileWriter writer = new FileWriter("save.txt");
 						writer.write("" + Score.getScore().getHighScore());

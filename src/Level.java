@@ -41,12 +41,12 @@ public class Level {
 
 		for (Enemy value : enemy) {
 			if (value != null) {
-				for (int j = 0; j < value.getEnemyBullet().length; j++) {
+				for (int j = 0; j < value.getBullets().length; j++) {
 					value.draw(g);
 					// System.out.println(i + "Updated");
-					if (value.getEnemyBullet()[j] != null
-							&& value.getEnemyBullet()[j].getY() < SpriteGame.getSpriteGame().getHeight())
-						value.getEnemyBullet()[j].draw(g);
+					if (value.getBullets()[j] != null
+							&& value.getBullets()[j].getY() < SpriteGame.getSpriteGame().getHeight())
+						value.getBullets()[j].draw(g);
 				}
 			}
 		}
@@ -63,7 +63,7 @@ public class Level {
 		for (int i = 0; i < enemy.length; i++) {
 			if (enemy[i] != null) {
 				enemy[i].update();
-				if (enemy[i].isDead()) {
+				if (enemy[i].isDeadShooter()) {
 					if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime()
 							- enemy[i].getDeadTime() > 1001) {
 						enemy[i] = null;

@@ -38,7 +38,7 @@ public class EnemyBullet extends Bullet {
 	public void update() {
 		moveDown();
 		if (this.getBounds().intersects(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().getBounds())
-				&& !SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().isDeadPLayer()) {
+				&& !SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().isDeadShooter()) {
 			this.setHot();
 			SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getPlayer().setDeadPLayer(true);
 			System.out.println("Player dead");

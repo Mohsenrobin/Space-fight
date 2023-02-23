@@ -4,19 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Enemy {
+public class Enemy extends Shooter{
 
-	private double x;
-	private final double y;
-	private Image enemySpaceShipImage;
-	private final EnemyBullet[] enemyBullet;
-	private int enemyBulletcounter;
-	private final Rectangle enemyShape;
-	private boolean enemyShoooted;
-	private boolean dead;
-	private Image enemyDeadImage;
 	private long deadTime = 0;
-	private long shootControlV2;
 	private boolean canShooting;
 	private double canGoingRight;
 	private double canGoingLeft;
@@ -24,98 +14,52 @@ public class Enemy {
 	private int enemyHealth;
 
 	public Enemy(double x, double y, String kindOfEnemy) {
-		this.enemyBulletcounter = 0;
-		this.setKindOfEnemy(kindOfEnemy);
+		super(x,y,"images\\RedPlane.PNG");
+
+		setBullets( new EnemyBullet[10]);
+		canShooting = true;
+
+
+		this.kindOfEnemy = kindOfEnemy;
 		if (Objects.equals(kindOfEnemy, "Red"))
 			this.enemyHealth = 2;
 		else
 			this.enemyHealth = 1;
-		enemyShape = new Rectangle();
-		canShooting = true;
-		enemyShoooted = false;
-		enemyBullet = new EnemyBullet[50];
 		try {
 			if (Objects.equals(kindOfEnemy, "Yellow"))
-				enemySpaceShipImage = ImageIO.read(new File("images\\YellowPlane.PNG")).getScaledInstance(
+				setSpaceShipImage(ImageIO.read(new File("images\\YellowPlane.PNG")).getScaledInstance(
 						SpriteGame.getSpriteGame().getWidth() / 10, SpriteGame.getSpriteGame().getWidth() / 10,
-						Image.SCALE_AREA_AVERAGING);
-			else
-				enemySpaceShipImage = ImageIO.read(new File("images\\RedPlane.PNG")).getScaledInstance(
-						SpriteGame.getSpriteGame().getWidth() / 10, SpriteGame.getSpriteGame().getWidth() / 10,
-						Image.SCALE_AREA_AVERAGING);
-			enemyDeadImage = ImageIO.read(new File("images\\boom2.PNG")).getScaledInstance(
-					SpriteGame.getSpriteGame().getWidth() / 10, SpriteGame.getSpriteGame().getWidth() / 10,
-					Image.SCALE_AREA_AVERAGING);
+						Image.SCALE_AREA_AVERAGING));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		this.x = x;
-		this.y = y;
-	}
-
-	public void draw(Graphics g) {
-
-		if (this.isDead()) {
-			if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getDeadTime() <= 1000) {
-				g.drawImage(enemyDeadImage, (int) this.getX(), (int) this.getY(), enemyDeadImage.getWidth(null),
-						enemyDeadImage.getHeight(null), null);
-			}
-		} else {
-			if (isEnemyShoooted()) {
-				int value = (int) (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime()
-						- getShootControlV2());
-				if (value <= 40)
-					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 3,
-							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
-				else if (value <= 80)
-					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 6,
-							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
-				else if (value <= 120)
-					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 9,
-							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
-				else if (value <= 160)
-					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 6,
-							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
-				else if (value <= 200)
-					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY() - 3,
-							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
-
-				if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() > 200) {
-					g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY(),
-							enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
-					setEnemyShoooted(false);
-				}
-			} else
-				g.drawImage(enemySpaceShipImage, (int) this.getX(), (int) this.getY(),
-						enemySpaceShipImage.getWidth(null), enemySpaceShipImage.getHeight(null), null);
 		}
 	}
 
 	public void shoot() {
-		setEnemyShoooted(true);
-		if (!this.isDead() && isCanShooting()) {
-			if (enemyBulletcounter == enemyBullet.length - 1)
-				enemyBulletcounter = 0;
-			enemyBulletcounter++;
-			if (enemyBullet[enemyBulletcounter] != null) {
-				enemyBullet[enemyBulletcounter].setX(this.getX());
-				enemyBullet[enemyBulletcounter].setY(this.getY());
+		setShot(true);
+		if (!this.isDeadShooter() && isCanShooting()) {
+			if (bulletCounter == getBullets().length - 1)
+				bulletCounter = 0;
+			bulletCounter++;
+			if (getBullets()[bulletCounter] != null) {
+				getBullets()[bulletCounter].setX(this.getX());
+				getBullets()[bulletCounter].setY(this.getY());
 			}
 
 			//for (int i = enemyBulletcounter; i <= enemyBullet.length;) {
-				enemyBullet[enemyBulletcounter] = new EnemyBullet(
-						(int) this.getX() + (enemySpaceShipImage.getWidth(null) / 2) - 5,
-						(int) this.getY() + enemySpaceShipImage.getHeight(null), 10, 20,this);
+			getBullets()[bulletCounter] = new EnemyBullet(
+						(int) this.getX() + (getSpaceShipImage().getWidth(null) / 2) - 5,
+						(int) this.getY() + getSpaceShipImage().getHeight(null), 10, 20,this);
 			//	break;
 			//}
-			setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter());
-			setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
-			System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter() + "sadadasdasdads");
-			System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() + "rhjretyerty");
+			//setShootControlV2(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter());
+			setShootControl(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
+			//System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTimeCounter() + "sadadasdasdads");
+			//System.out.println(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() + "rhjretyerty");
 		}
 	}
 
-	public void moveleft() {
+	public void moveLeft() {
 		setX(getX() - 8);
 	}
 
@@ -123,33 +67,16 @@ public class Enemy {
 		setX(getX() + 8);
 	}
 
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-	public Rectangle getBounds() {
-		enemyShape.setBounds((int) this.getX(), (int) this.getY(), enemySpaceShipImage.getWidth(null),
-				enemySpaceShipImage.getHeight(null));
-		return enemyShape;
-	}
-
-	public EnemyBullet[] getEnemyBullet() {
-		return enemyBullet;
-	}
 	public void update() {
-		if (!this.isDead()) {
+		if (!this.isDeadShooter()) {
 			if (Math.random() > 0.99 && this.getX() > 0) {
-				if (getCanGoingLeft() < (SpriteGame.getSpriteGame().getWidth()
-						/(float) ((SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getNumberOfEnemies() + 1) / 2))) {
-					moveleft();
+				if (getCanGoingLeft() < SpriteGame.getSpriteGame().getWidth()
+						/(float) (SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getNumberOfEnemies() + 1) / 2
+				) {
+					moveLeft();
 					setCanGoingLeft(getCanGoingLeft() + getX());
+					System.out.println(canGoingLeft + " CAN GOING LEFT " + getX() + " CRAZY "  + SpriteGame.getSpriteGame().getWidth()
+							/(float) (SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getNumberOfEnemies() + 1) / 2);
 				}
 			}
 			if (Math.random() < 0.01 && this.getX() < SpriteGame.getSpriteGame().getWidth()) {
@@ -165,7 +92,7 @@ public class Enemy {
 					waitTime = 2500;
 				else
 					waitTime = 5000;
-				if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControlV2() > waitTime) {
+				if (SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl() > waitTime) {
 					setCanShooting(true);
 					shoot();
 					setCanShooting(false);
@@ -173,27 +100,11 @@ public class Enemy {
 			}
 		} else if (getDeadTime() == 0) {
 			setDeadTime(SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime());
-			// System.out.println(getDeadTime() + " enemy/update");
 		}
-		for (EnemyBullet bullet : enemyBullet)
+		for (Bullet bullet : getBullets())
 			if (bullet != null)
 				bullet.update();
 
-	}
-	public boolean isEnemyShoooted() {
-		return enemyShoooted;
-	}
-
-	public void setEnemyShoooted(boolean enemyShoooted) {
-		this.enemyShoooted = enemyShoooted;
-	}
-
-	public boolean isDead() {
-		return dead;
-	}
-
-	public void setDead(boolean dead) {
-		this.dead = dead;
 	}
 
 	public long getDeadTime() {
@@ -211,7 +122,6 @@ public class Enemy {
 	public void setCanShooting(boolean canShooting) {
 		this.canShooting = canShooting;
 	}
-
 	public double getCanGoingRight() {
 		return canGoingRight;
 	}
@@ -219,7 +129,6 @@ public class Enemy {
 	public void setCanGoingRight(double canGoingRight) {
 		this.canGoingRight = canGoingRight;
 	}
-
 	public double getCanGoingLeft() {
 		return canGoingLeft;
 	}
@@ -227,13 +136,8 @@ public class Enemy {
 	public void setCanGoingLeft(double canGoingLeft) {
 		this.canGoingLeft = canGoingLeft;
 	}
-
 	public String getKindOfEnemy() {
 		return kindOfEnemy;
-	}
-
-	public void setKindOfEnemy(String kindOfEnemy) {
-		this.kindOfEnemy = kindOfEnemy;
 	}
 
 	public int getEnemyHealth() {
@@ -242,12 +146,5 @@ public class Enemy {
 
 	public void setEnemyHealth(int enemyHealth) {
 		this.enemyHealth = enemyHealth;
-	}
-	public long getShootControlV2() {
-		return shootControlV2;
-	}
-
-	public void setShootControlV2(long shootControlV2) {
-		this.shootControlV2 = shootControlV2;
 	}
 }

@@ -34,13 +34,13 @@ public class PlayerBullet extends Bullet {
 			if (SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i] != null) {
 				if (this.getBounds()
 						.intersects(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getBounds())
-						&& !SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].isDead() && isHot()) {
+						&& !SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].isDeadShooter() && isHot()) {
 					setHot(false);
 					super.setHitEnemy(true);
 					SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].setEnemyHealth(
 							SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getEnemyHealth() - 1);
 					if (SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getEnemyHealth() == 0) {
-						SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].setDead(true);
+						SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].setDeadShooter(true);
 						System.out.println("ENEMY dead");
 						if (Objects.equals(SpriteGame.getSpriteGame().getMenu().getGame().getLevel().getEnemy()[i].getKindOfEnemy(), "Yellow"))
 							Score.getScore().setPlayerScore(Score.getScore().getPlayerScore() + 100);
