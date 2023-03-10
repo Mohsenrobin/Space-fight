@@ -8,10 +8,10 @@ public abstract class Shooter {
     private double x;
     private final double y;
     private Image spaceShipImage;
-    protected int bulletCounter = 0;
+    protected int bulletCounter;
     private final Rectangle shape;
     private boolean deadShooter;
-    private Image deadImage;
+    private final Image deadImage;
     private boolean shot;
     private long shootControl;
     private Bullet[] bullets;
@@ -23,15 +23,11 @@ public abstract class Shooter {
         this.y = y;
         deadShooter = false;
         shot = false;
-        shootControl = 0l;
+        shootControl = 0L;
 
         try {
-            spaceShipImage = ImageIO.read(new File(spaceshipImage)).getScaledInstance(
-                    SpriteGame.getSpriteGame().getWidth() / 7, SpriteGame.getSpriteGame().getWidth() / 7,
-                    Image.SCALE_AREA_AVERAGING);
-            deadImage = ImageIO.read(new File("images\\boom2.PNG")).getScaledInstance(
-                    SpriteGame.getSpriteGame().getWidth() / 7, SpriteGame.getSpriteGame().getWidth() / 7,
-                    Image.SCALE_AREA_AVERAGING);
+            spaceShipImage = ImageIO.read(new File(spaceshipImage)).getScaledInstance(SpriteGame.getSpriteGame().getWidth() / 7, SpriteGame.getSpriteGame().getWidth() / 7, Image.SCALE_AREA_AVERAGING);
+            deadImage = ImageIO.read(new File("images\\boom2.PNG")).getScaledInstance(SpriteGame.getSpriteGame().getWidth() / 7, SpriteGame.getSpriteGame().getWidth() / 7, Image.SCALE_AREA_AVERAGING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -39,43 +35,42 @@ public abstract class Shooter {
 
 
     public void draw(Graphics g) {
-        if (this.isDeadShooter()) {
-            g.drawImage(deadImage, (int) this.getX(), (int) this.getY(), deadImage.getWidth(null),
-                    deadImage.getHeight(null), null);
-        } else if (isShot()) {
+        int[] player = {3, 6, 9, 6, 3};
+        int[] enemy = {-3, -6, -9, -6, -3};
+        if (this.isDeadShooter())
+            g.drawImage(deadImage, (int) this.getX(), (int) this.getY(), deadImage.getWidth(null), deadImage.getHeight(null), null);
+        else if (isShot()) {
+
             long value = SpriteGame.getSpriteGame().getMenu().getGame().getTime().getCurrentTime() - getShootControl();
+            int[] shooterAnimation;
+
+            if (this.getClass().equals(Player.class))
+                shooterAnimation = player;
+            else
+                shooterAnimation = enemy;
+
             if (value <= 40)
-                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 3, spaceShipImage.getWidth(null),
-                        spaceShipImage.getHeight(null), null);
+                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + shooterAnimation[0], spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
             else if (value <= 80)
-                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 6, spaceShipImage.getWidth(null),
-                        spaceShipImage.getHeight(null), null);
+                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + shooterAnimation[1], spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
             else if (value <= 120)
-                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 9, spaceShipImage.getWidth(null),
-                        spaceShipImage.getHeight(null), null);
+                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + shooterAnimation[2], spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
             else if (value <= 160)
-                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 6, spaceShipImage.getWidth(null),
-                        spaceShipImage.getHeight(null), null);
+                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + shooterAnimation[3], spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
             else if (value <= 200)
-                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + 3, spaceShipImage.getWidth(null),
-                        spaceShipImage.getHeight(null), null);
+                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY() + shooterAnimation[4], spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
 
             if (value > 200) {
                 setShot(false);
-                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null),
-                        spaceShipImage.getHeight(null), null);
+                g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
             }
 
-        } else {
-            g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null),
-                    spaceShipImage.getHeight(null), null);
-
-        }
+        } else
+            g.drawImage(spaceShipImage, (int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null), spaceShipImage.getHeight(null), null);
     }
 
     public Rectangle getBounds() {
-        shape.setBounds((int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null),
-                spaceShipImage.getHeight(null));
+        shape.setBounds((int) this.getX(), (int) this.getY(), spaceShipImage.getWidth(null), spaceShipImage.getHeight(null));
         return shape;
     }
 

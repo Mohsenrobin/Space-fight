@@ -22,15 +22,15 @@ public class Level {
 		for (int i = 0; i < enemy.length; i++, scale++) {
 			if (scale > 4)
 				scale = 1;
-			int enemyYposition;
-			int enemyXposition;
+			int enemyYPosition;
+			int enemyXPosition;
 			if (i - 4 < 0) {
-				enemyYposition = 100;
+				enemyYPosition = 100;
 			} else {
-				enemyYposition = 140;
+				enemyYPosition = 140;
 			}
-			enemyXposition = (SpriteGame.getSpriteGame().getWidth() / (numberOfEnemies + 1) * scale) - 20;
-			enemy[i] = new Enemy(enemyXposition, enemyYposition, "Yellow");
+			enemyXPosition = (SpriteGame.getSpriteGame().getWidth() / (numberOfEnemies + 1) * scale) - 20;
+			enemy[i] = new Enemy(enemyXPosition, enemyYPosition, "Yellow");
 		}
 	}
 
@@ -72,7 +72,6 @@ public class Level {
 				}
 
 			} else if (getDeadEnemies() % 4 == 0) {
-
 				if (scale > 4)
 					scale = 1;
 				if (getDeadEnemies() <= 4)
